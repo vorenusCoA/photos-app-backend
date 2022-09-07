@@ -1,0 +1,31 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 
+  datasource:
+    url: jdbc:mysql://localhost:3306/spring_photos_app_db
+    username: root
+    password: pass
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate: 
+      ddl-auto: none
+  sql:
+    init:
+      mode: always
+
+jwt:
+  secret: 123
+  expiration: 1800000
+  issuer: Spring-Photos-App
+
+generatedPassword: pass
+
+serverURL: http://localhost:8080

@@ -1,0 +1,1 @@
+INSERT IGNORE INTO ROLES (id, type) VALUES (unhex(replace(UUID(), '-', '')), 'ROLE_USER');
