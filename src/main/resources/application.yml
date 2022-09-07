@@ -20,6 +20,10 @@ spring:
   sql:
     init:
       mode: always
+  servlet:
+    multipart:
+      max-file-size: 64KB
+      max-request-size: 64KB
 
 jwt:
   secret: 123
