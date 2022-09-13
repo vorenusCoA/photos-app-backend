@@ -3,10 +3,9 @@ package com.example.photos.model;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-@Getter
 @RequiredArgsConstructor
-public class TokenDTO {
+@Getter
+public class ResponseMessage {
 
-	private final String value;
-
+	private final String message;
 }

@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS PHOTOS (
   id BINARY(16) not null,
   user_id BINARY(16) not null,
   name varchar(255) not null,
-  data blob,
+  data MEDIUMBLOB,
   primary key (id),
   foreign key (user_id) references USERS(id)
 );

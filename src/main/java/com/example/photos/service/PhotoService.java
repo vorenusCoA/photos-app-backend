@@ -1,7 +1,6 @@
 package com.example.photos.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -22,32 +21,18 @@ public class PhotoService {
 	private final PhotoRepository photoRepository;
 	private final UserService userService;
 
-	public void delete(Photo photo) {
-		photoRepository.delete(photo);
-	}
-
 	public List<Photo> findAllByUserEmail(String email) {
 		return photoRepository.findAllByUserEmail(email);
 	}
-	
-	public Optional<Photo> findById(UUID id) {
-		return photoRepository.findById(id);
+
+	public Optional<Photo> findByIdAndFetchUser(UUID id) {
+		return photoRepository.findByIdAndFetchUser(id);
 	}
 
-	public List<Photo> savePhotos(MultipartFile[] files, String userEmail) throws IOException {
-		
+	public Photo savePhoto(MultipartFile file, String userEmail) throws IOException {
 		User user = userService.findByEmail(userEmail).get();
-		
-		List<Photo> photos = new ArrayList<>();
-		for (MultipartFile file : files) {
-			photos.add(new Photo(file.getOriginalFilename(), file.getBytes(), user));
-		}
-		
-		return savePhotos(photos);
+		Photo newPhoto = new Photo(file.getOriginalFilename(), file.getBytes(), user);
+		return photoRepository.save(newPhoto);
 	}
-	
-	public List<Photo> savePhotos(List<Photo> photos) {
-		return photoRepository.saveAll(photos);
-	}
-	
+
 }

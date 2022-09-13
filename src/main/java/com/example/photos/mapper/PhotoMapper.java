@@ -14,6 +14,9 @@ public class PhotoMapper {
 
 	@Value("${serverURL}")
 	private String serverURL;
+	
+	@Value("${photosEndpoint}")
+	private String photosEndpoint;
 
 	public List<PhotoDTO> getPhotosDTO(List<Photo> photos) {
 		List<PhotoDTO> photosDTO = new ArrayList<>(photos.size());
@@ -24,7 +27,7 @@ public class PhotoMapper {
 	}
 
 	public PhotoDTO getPhotoDTO(Photo photo) {
-		PhotoDTO newPhotoDTO = new PhotoDTO(photo.getName(), serverURL + "/photos/" + photo.getId());
+		PhotoDTO newPhotoDTO = new PhotoDTO(photo.getName(), serverURL + photosEndpoint + photo.getId());
 		return newPhotoDTO;
 	}
 
