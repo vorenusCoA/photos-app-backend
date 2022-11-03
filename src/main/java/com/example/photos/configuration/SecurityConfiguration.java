@@ -19,12 +19,11 @@ public class SecurityConfiguration {
 
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests((authz) -> authz.anyRequest().authenticated())
-			.cors()
-			.and()
-			.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
-			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		
+		http.authorizeHttpRequests((authz) -> authz.anyRequest().authenticated()).cors().and().csrf().disable()
+				.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt).sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
 		return http.build();
 	}
+
 }

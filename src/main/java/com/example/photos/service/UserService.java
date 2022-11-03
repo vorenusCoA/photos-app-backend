@@ -1,6 +1,7 @@
 package com.example.photos.service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
@@ -26,6 +27,10 @@ public class UserService {
 		this.roleService = roleService;
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
+	}
+	
+	public Optional<User> findById(UUID id) {
+		return userRepository.findById(id);
 	}
 
 	public Optional<User> findByEmail(String email) {

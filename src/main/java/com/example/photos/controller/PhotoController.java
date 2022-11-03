@@ -29,13 +29,22 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @CrossOrigin(origins = { "http://localhost:4200" })
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/photos")
 public class PhotoController {
-
+	
 	private final PhotoService photoService;
 	private final PhotoMapper photoMapper;
 
-	@GetMapping(value = "/photos/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+	@GetMapping()
+	public ResponseEntity<List<PhotoDTO>> getAllPhotos(JwtAuthenticationToken principal) {
+
+		List<Photo> photos = photoService.findAllByUserEmail(principal.getToken().getClaim("email"));
+		List<PhotoDTO> photosDTO = photoMapper.getPhotosDTO(photos);
+
+		return new ResponseEntity<>(photosDTO, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
 	public ResponseEntity<byte[]> getPhotoById(@PathVariable UUID id, JwtAuthenticationToken principal) {
 
 		Optional<Photo> optionalPhoto = photoService.findByIdAndFetchUser(id);
@@ -52,18 +61,8 @@ public class PhotoController {
 		return new ResponseEntity<>(photo.getData(), HttpStatus.OK);
 	}
 
-	@GetMapping("/photos")
-	public ResponseEntity<List<PhotoDTO>> getAllPhotos(JwtAuthenticationToken principal) {
-
-		List<Photo> photos = photoService.findAllByUserEmail(principal.getToken().getClaim("email"));
-		List<PhotoDTO> photosDTO = photoMapper.getPhotosDTO(photos);
-
-		return new ResponseEntity<>(photosDTO, HttpStatus.OK);
-	}
-
-	@PostMapping("/photos")
-	public ResponseEntity<ResponseMessage> uploadPhoto(@RequestParam("file") MultipartFile file,
-			JwtAuthenticationToken principal) {
+	@PostMapping()
+	public ResponseEntity<ResponseMessage> uploadPhoto(@RequestParam("file") MultipartFile file, JwtAuthenticationToken principal) {
 
 		try {
 
@@ -79,5 +78,4 @@ public class PhotoController {
 		}
 
 	}
-
 }
